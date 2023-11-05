@@ -1,0 +1,32 @@
+server:
+  servlet:
+    context-path: /imperial
+  port: 8085
+
+logging:
+  level:
+    root: INFO
+    org:
+      apache:
+        coyote:
+          http11:
+            Http11InputBuffer: DEBUG
+    com:
+      rlm: DEBUG
+spring:
+  application:
+    name: imperialcom
+  data:
+    mongodb:
+      database: imperialcom
+      username: storm
+      password: 6690B1
+  profiles:
+    active: standalone
+  jackson:
+    default-property-inclusion: NON_NULL
+  docker:
+    compose:
+      enabled: true
+      file: ./docker/docker-compose.yaml
+
