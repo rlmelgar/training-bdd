@@ -1,0 +1,1 @@
+mongoimport --db imperialcom --collection trailer --type json --file trailer.json --jsonArray
