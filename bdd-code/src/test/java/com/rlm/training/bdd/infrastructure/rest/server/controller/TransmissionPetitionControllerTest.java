@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.stream.Stream;
 
-import com.rlm.training.bdd.application.usecase.transmission.GetTransmissionPetitionsUseCase;
+import com.rlm.training.bdd.application.usecase.transmissionpetition.GetTransmissionPetitionsUseCase;
 import com.rlm.training.bdd.domain.model.TransmissionBuilder;
 import com.rlm.training.bdd.domain.model.TransmissionPetition;
 import com.rlm.training.bdd.domain.model.TransmissionPetitionBuilder;
@@ -75,7 +75,7 @@ class TransmissionPetitionControllerTest {
 
     //WHEN
     Stream<TransmissionPetitionResponse> transmissionPetitionStream =
-        transmissionPetitionController.getTransmissionPetitions(transmissionId);
+        transmissionPetitionController.getPetitions(transmissionId);
 
     //THEN
     assertThat(transmissionPetitionStream.toList())
@@ -90,7 +90,7 @@ class TransmissionPetitionControllerTest {
     //GIVEN
 
     //WHEN
-    ThrowingCallable throwingCallableSupplier = () -> transmissionPetitionController.getTransmissionPetitions(transmissionId);
+    ThrowingCallable throwingCallableSupplier = () -> transmissionPetitionController.getPetitions(transmissionId);
 
     //THEN
     assertThatThrownBy(throwingCallableSupplier)

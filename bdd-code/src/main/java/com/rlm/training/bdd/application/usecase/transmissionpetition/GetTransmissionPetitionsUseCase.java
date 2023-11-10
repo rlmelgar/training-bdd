@@ -1,4 +1,4 @@
-package com.rlm.training.bdd.application.usecase.transmission;
+package com.rlm.training.bdd.application.usecase.transmissionpetition;
 
 import java.util.stream.Stream;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GetTransmissionPetitionsUseCase {
 
-  public Stream<TransmissionPetition> getByTransmissionId(String s) {
+  public Stream<TransmissionPetition> getByTransmissionId(String transmissionId) {
     return Stream.empty();
   }
 }
