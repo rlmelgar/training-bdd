@@ -1,5 +1,6 @@
 package com.rlm.training.bdd.domain.service;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Named.named;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -21,7 +22,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -35,9 +35,6 @@ class TransmissionPersistenceServiceTest {
 
   @InjectMocks
   TransmissionPersistenceService transmissionPersistenceService;
-
-  @Captor
-  private ArgumentCaptor<String> transmissionIdCaptor;
 
   private static Stream<Arguments> getActiveCases() {
     return Stream.of(
@@ -61,27 +58,27 @@ class TransmissionPersistenceServiceTest {
     when(transmissionPersistencePort.getById(anyString())).thenReturn(Optional.empty());
 
     //WHEN
-    EntityNotFoundException entityNotFoundException = Assertions.assertThrows(EntityNotFoundException.class,
-        () -> transmissionPersistenceService.getByIdOrException(TransmissionBuilder.ID));
-
-    //THEN
-    Assertions.assertEquals(TransmissionBuilder.ID, entityNotFoundException.getEntityId());
-    Assertions.assertEquals("Transmission", entityNotFoundException.getEntityName());
+    assertThatThrownBy(() -> transmissionPersistenceService.getByIdOrException(TransmissionBuilder.ID))
+        .isInstanceOf(EntityNotFoundException.class)
+        .extracting("entityId", "entityName")
+        .containsExactly(TransmissionBuilder.ID, "Transmission");
   }
 
   @Test
   @DisplayName("when found transmission then returns it.")
   void whenFoundTransmissionThenReturnsIt() {
     //GIVEN
-    Mockito.when(this.transmissionPersistencePort.getById(anyString()))
+    ArgumentCaptor<String> transmissionIdCaptor = ArgumentCaptor.forClass(String.class);
+
+    Mockito.when(this.transmissionPersistencePort.getById(transmissionIdCaptor.capture()))
         .thenReturn(Optional.of(TransmissionBuilder.buildFull()));
 
     //WHEN
-    Transmission result = this.transmissionPersistenceService.getByIdOrException(TransmissionBuilder.ID);
+    Transmission result = this.transmissionPersistenceService.getByIdOrException("333");
 
     //THEN
-    verify(transmissionPersistencePort).getById(this.transmissionIdCaptor.capture());
-    Assertions.assertEquals(TransmissionBuilder.ID, this.transmissionIdCaptor.getValue());
+    verify(transmissionPersistencePort).getById(anyString());
+    Assertions.assertEquals(TransmissionBuilder.ID, transmissionIdCaptor.getValue());
     Assertions.assertEquals(TransmissionBuilder.buildFull(), result);
   }
 
