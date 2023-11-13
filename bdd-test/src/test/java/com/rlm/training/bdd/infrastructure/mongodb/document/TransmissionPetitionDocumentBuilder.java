@@ -1,14 +1,14 @@
-package com.rlm.training.bdd.infrastructure.rest.server.dto;
+package com.rlm.training.bdd.infrastructure.mongodb.document;
 
 import com.rlm.training.bdd.domain.model.TransmissionPetitionBuilder;
 
-public class TransmissionPetitionResponseBuilder {
+public class TransmissionPetitionDocumentBuilder {
 
-  TransmissionPetitionResponseBuilder() {
+  TransmissionPetitionDocumentBuilder() {
   }
 
-  public static TransmissionPetitionResponse buildAccepted() {
-    return TransmissionPetitionResponse.builder()
+  public static TransmissionPetitionDocument buildAccepted() {
+    return TransmissionPetitionDocument.builder()
         .id(TransmissionPetitionBuilder.ID)
         .petition(TransmissionPetitionBuilder.PETITION)
         .created(TransmissionPetitionBuilder.PETITION_CREATED)
@@ -17,8 +17,8 @@ public class TransmissionPetitionResponseBuilder {
         .build();
   }
 
-  public static TransmissionPetitionResponse buildRefused() {
-    return TransmissionPetitionResponse.builder()
+  public static TransmissionPetitionDocument buildRefused() {
+    return TransmissionPetitionDocument.builder()
         .id(TransmissionPetitionBuilder.ID2)
         .petition(TransmissionPetitionBuilder.PETITION2)
         .created(TransmissionPetitionBuilder.PETITION_CREATED2)
@@ -27,8 +27,8 @@ public class TransmissionPetitionResponseBuilder {
         .build();
   }
 
-  public static TransmissionPetitionResponse buildPending() {
-    return TransmissionPetitionResponse.builder()
+  public static TransmissionPetitionDocument buildPending() {
+    return TransmissionPetitionDocument.builder()
         .id(TransmissionPetitionBuilder.ID3)
         .petition(TransmissionPetitionBuilder.PETITION)
         .created(TransmissionPetitionBuilder.PETITION_CREATED)

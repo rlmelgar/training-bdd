@@ -74,7 +74,7 @@ class TransmissionPersistenceServiceTest {
         .thenReturn(Optional.of(TransmissionBuilder.buildFull()));
 
     //WHEN
-    Transmission result = this.transmissionPersistenceService.getByIdOrException("333");
+    Transmission result = this.transmissionPersistenceService.getByIdOrException(TransmissionBuilder.ID);
 
     //THEN
     verify(transmissionPersistencePort).getById(anyString());

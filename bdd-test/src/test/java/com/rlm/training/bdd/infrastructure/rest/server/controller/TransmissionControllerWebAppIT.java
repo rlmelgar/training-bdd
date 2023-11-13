@@ -8,12 +8,14 @@ import java.util.stream.Stream;
 
 import com.rlm.training.bdd.application.usecase.transmission.GetActiveTransmissionsUseCase;
 import com.rlm.training.bdd.domain.model.TransmissionBuilder;
-import com.rlm.training.bdd.infrastructure.rest.server.config.TestMockSimpleConfig;
+import com.rlm.training.bdd.infrastructure.mongodb.repository.TransmissionRepository;
+import com.rlm.training.bdd.infrastructure.rest.server.mapper.TransmissionDtoMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -22,10 +24,15 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @WebMvcTest(TransmissionController.class)
-@Import(TestMockSimpleConfig.class)
 class TransmissionControllerWebAppIT {
 
-  @Autowired
+  @MockBean
+  TransmissionRepository transmissionRepository;
+
+  @SpyBean
+  TransmissionDtoMapper transmissionDtoMapper;
+
+  @MockBean
   GetActiveTransmissionsUseCase getActiveTransmissionsUseCase;
 
   @Autowired
@@ -43,7 +50,7 @@ class TransmissionControllerWebAppIT {
   @Test
   void whenGetTransmissionsThenReturnsTransmissionList() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders
-            .get("/v1/transmissions/")
+            .get("/v1/transmissions")
             .accept(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isOk())
@@ -57,7 +64,7 @@ class TransmissionControllerWebAppIT {
     when(this.getActiveTransmissionsUseCase.getActive()).thenReturn(Stream.of());
 
     mockMvc.perform(MockMvcRequestBuilders
-            .get("/v1/transmissions/")
+            .get("/v1/transmissions")
             .accept(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isOk())

@@ -42,7 +42,7 @@ class TransmissionControllerBoot1IT {
     assertThat(webApplicationContext.getBean("transmissionController")).isNotNull();
 
     mockMvc.perform(MockMvcRequestBuilders
-            .get("/v1/transmissions/")
+            .get("/v1/transmissions")
             .accept(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isOk());

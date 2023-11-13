@@ -6,24 +6,31 @@ import java.util.stream.Stream;
 
 import com.rlm.training.bdd.application.usecase.transmission.GetActiveTransmissionsUseCase;
 import com.rlm.training.bdd.domain.model.TransmissionBuilder;
-import com.rlm.training.bdd.infrastructure.rest.server.config.TestMockSimpleConfig;
+import com.rlm.training.bdd.infrastructure.mongodb.repository.TransmissionRepository;
 import com.rlm.training.bdd.infrastructure.rest.server.dto.TransmissionResponse;
 import com.rlm.training.bdd.infrastructure.rest.server.dto.TransmissionResponseBuilder;
+import com.rlm.training.bdd.infrastructure.rest.server.mapper.TransmissionDtoMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 
 @WebMvcTest(TransmissionController.class)
-@Import(TestMockSimpleConfig.class)
 class TransmissionControllerWebAppTestClientIT {
 
-  @Autowired
+  @MockBean
+  TransmissionRepository transmissionRepository;
+
+  @SpyBean
+  TransmissionDtoMapper transmissionDtoMapper;
+
+  @MockBean
   GetActiveTransmissionsUseCase getActiveTransmissionsUseCase;
 
   WebTestClient webTestClient;
@@ -44,7 +51,7 @@ class TransmissionControllerWebAppTestClientIT {
 
     //WHEN
     ResponseSpec responseSpec = webTestClient.get()
-        .uri("/v1/transmissions/")
+        .uri("/v1/transmissions")
         .accept(MediaType.APPLICATION_JSON)
         .exchange();
 
@@ -65,7 +72,7 @@ class TransmissionControllerWebAppTestClientIT {
 
     //WHEN
     ResponseSpec responseSpec = webTestClient.get()
-        .uri("/v1/transmissions/")
+        .uri("/v1/transmissions")
         .accept(MediaType.APPLICATION_JSON)
         .exchange();
 

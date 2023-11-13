@@ -31,7 +31,7 @@ import org.springframework.web.context.WebApplicationContext;
  * Spring test, no used Spring Boot
  */
 @ExtendWith(SpringExtension.class)
-@WebAppConfiguration //Load web application context
+@WebAppConfiguration
 @ContextConfiguration(classes = {TestWebConfig.class})
 @TestInstance(Lifecycle.PER_CLASS)
 class TransmissionControllerExtensionIT {
@@ -52,7 +52,7 @@ class TransmissionControllerExtensionIT {
 
     //WHEN
     ResultActions actions = mockMvc.perform(MockMvcRequestBuilders
-            .get("/v1/transmissions/")
+            .get("/v1/transmissions")
             .accept(MediaType.APPLICATION_JSON))
         .andDo(print());
 

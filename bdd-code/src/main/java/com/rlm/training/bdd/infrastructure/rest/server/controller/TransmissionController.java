@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/v1/transmissions/")
+@RequestMapping("/v1/transmissions")
 @RequiredArgsConstructor
 public class TransmissionController {
 
@@ -23,7 +23,7 @@ public class TransmissionController {
 
   private final TransmissionDtoMapper transmissionDtoMapper;
 
-  @GetMapping("/")
+  @GetMapping("")
   public ResponseEntity<Stream<TransmissionResponse>> getActive() {
     log.debug("[START]");
     return ResponseEntity.status(HttpStatus.OK)

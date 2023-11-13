@@ -29,7 +29,7 @@ class TransmissionControllerBoot2IT {
     assertThat(mockMvc.getDispatcherServlet().getServletContext()).isNotNull().isInstanceOf(ApplicationContextFacade.class);
 
     mockMvc.perform(MockMvcRequestBuilders
-            .get("/v1/transmissions/")
+            .get("/v1/transmissions")
             .accept(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(status().isOk());

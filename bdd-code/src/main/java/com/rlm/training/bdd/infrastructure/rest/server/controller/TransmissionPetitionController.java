@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 import com.rlm.training.bdd.application.usecase.transmissionpetition.GetTransmissionPetitionsUseCase;
 import com.rlm.training.bdd.infrastructure.rest.server.dto.TransmissionPetitionResponse;
 import com.rlm.training.bdd.infrastructure.rest.server.mapper.TransmissionPetitionResponseMapper;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,13 +35,14 @@ public class TransmissionPetitionController {
     return transmissionId;
   }
 
-  @GetMapping("/")
+  @GetMapping("")
   public ResponseEntity<Stream<TransmissionPetitionResponse>> getPetitions(
       @Pattern(regexp = "^[a-f\\d]{24}$")
+      @Parameter(description = "Transmission Id assigned to spaceship", required = true)
       @PathVariable("transmissionId") String transmissionId) {
     log.debug("[START] transmissionId {}", transmissionId);
     return ResponseEntity.status(HttpStatus.OK)
-        .body(getTransmissionPetitionsUseCase.getByTransmissionId(validate(transmissionId))
+        .body(getTransmissionPetitionsUseCase.getByTransmissionId(validate(transmissionId).trim())
             .map(transmissionPetitionResponseMapper::toResponse));
   }
 }

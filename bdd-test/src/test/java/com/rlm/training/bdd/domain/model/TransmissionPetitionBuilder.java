@@ -9,13 +9,15 @@ public class TransmissionPetitionBuilder {
 
   public static final String ID2 = UUID.randomUUID().toString();
 
+  public static final String ID3 = UUID.randomUUID().toString();
+
   public static final String PETITION = "Docking request";
 
   public static final String PETITION2 = "Refuel";
 
-  public static final Instant PETITION_CREATED = Instant.parse("2023-09-17T17:49:00.676055200Z");
+  public static final Instant PETITION_CREATED = Instant.parse("2023-09-17T17:49:00.676Z");
 
-  public static final Instant PETITION_CREATED2 = Instant.parse("2023-09-17T17:49:00.676055200Z");
+  public static final Instant PETITION_CREATED2 = Instant.parse("2023-09-17T17:49:00.676Z");
 
   public static final String REFUSED_REASON = "Code invalid";
 

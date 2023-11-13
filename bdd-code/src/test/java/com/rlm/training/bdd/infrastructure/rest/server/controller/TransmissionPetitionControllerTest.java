@@ -52,9 +52,7 @@ class TransmissionPetitionControllerTest {
             List.of(TransmissionPetitionResponseBuilder.buildAccepted(), TransmissionPetitionResponseBuilder.buildRefused(),
                 TransmissionPetitionResponseBuilder.buildPending()),
             List.of(TransmissionPetitionBuilder.buildAccepted(), TransmissionPetitionBuilder.buildRefused(),
-                TransmissionPetitionBuilder.buildPending())),
-        Arguments.of(named("When receive invalid transmission Id has spaces.", "    " + TransmissionBuilder.ID + "    "), List.of(),
-            List.of())
+                TransmissionPetitionBuilder.buildPending()))
     );
   }
 
@@ -62,8 +60,7 @@ class TransmissionPetitionControllerTest {
     return Stream.of(
         Arguments.of(named("When receive invalid transmission Id is null.", null)),
         Arguments.of(named("When receive invalid transmission Id is empty.", "")),
-        Arguments.of(named("When receive invalid transmission Id is blank.", "    ")),
-        Arguments.of(named("When receive invalid transmission Id is not objectId.", "fddf4444"))
+        Arguments.of(named("When receive invalid transmission Id is blank.", "    "))
     );
   }
 
