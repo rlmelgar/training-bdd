@@ -1,5 +1,6 @@
 package com.rlm.training.bdd.infrastructure.rest.server.dto;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 import lombok.Builder;
@@ -9,7 +10,7 @@ import lombok.experimental.Accessors;
 @Data
 @Builder
 @Accessors(chain = true)
-public class TransmissionPetitionResponse {
+public class TransmissionPetitionResponse implements Serializable {
 
   private String id;
 

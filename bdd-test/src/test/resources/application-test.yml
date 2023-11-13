@@ -21,12 +21,10 @@ spring:
       database: imperialcom
       username: storm
       password: 6690B1
-  profiles:
-    active: standalone
+      authentication-database: admin
   jackson:
     default-property-inclusion: NON_NULL
   docker:
     compose:
       enabled: true
       file: ./docker/docker-compose.yaml
-
