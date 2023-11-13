@@ -5,9 +5,12 @@ import java.util.stream.Stream;
 import com.rlm.training.bdd.application.usecase.transmissionpetition.GetTransmissionPetitionsUseCase;
 import com.rlm.training.bdd.infrastructure.rest.server.dto.TransmissionPetitionResponse;
 import com.rlm.training.bdd.infrastructure.rest.server.mapper.TransmissionPetitionResponseMapper;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +35,12 @@ public class TransmissionPetitionController {
   }
 
   @GetMapping("/")
-  public Stream<TransmissionPetitionResponse> getPetitions(@PathVariable("transmissionId") String transmissionId) {
-
-    return getTransmissionPetitionsUseCase.getByTransmissionId(validate(transmissionId))
-        .map(transmissionPetitionResponseMapper::toResponse);
+  public ResponseEntity<Stream<TransmissionPetitionResponse>> getPetitions(
+      @Pattern(regexp = "^[a-f\\d]{24}$")
+      @PathVariable("transmissionId") String transmissionId) {
+    log.debug("[START] transmissionId {}", transmissionId);
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(getTransmissionPetitionsUseCase.getByTransmissionId(validate(transmissionId))
+            .map(transmissionPetitionResponseMapper::toResponse));
   }
 }

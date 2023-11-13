@@ -21,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -47,19 +48,26 @@ class TransmissionControllerExtensionIT {
 
   @Test
   void whenGetTransmissionsThenReturnsTransmissionList() throws Exception {
-    ServletContext servletContext = webApplicationContext.getServletContext();
+    //GIVEN
 
-    assertThat(servletContext).isNotNull().isInstanceOf(MockServletContext.class);
-    assertThat(webApplicationContext.getBean("transmissionController")).isNotNull();
-
-    mockMvc.perform(MockMvcRequestBuilders
+    //WHEN
+    ResultActions actions = mockMvc.perform(MockMvcRequestBuilders
             .get("/v1/transmissions/")
             .accept(MediaType.APPLICATION_JSON))
-        .andDo(print())
-        .andExpect(status().isOk())
+        .andDo(print());
+
+    //THEN
+    actions.andExpect(status().isOk())
         .andExpect(MockMvcResultMatchers.jsonPath("$.[*]").exists())
         .andExpect(MockMvcResultMatchers.jsonPath("$.[*].id").isNotEmpty())
         .andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").value(TransmissionBuilder.ID))
         .andExpect(MockMvcResultMatchers.content().string(containsString(SpaceshipBuilder.CARGO)));
+
+    ServletContext servletContext = webApplicationContext.getServletContext();
+
+    assertThat(servletContext).isNotNull().isInstanceOf(MockServletContext.class);
+    assertThat(webApplicationContext.getBean("transmissionController")).isNotNull();
+    assertThat(webApplicationContext.getBean("transmissionPetitionController")).isNotNull();
+
   }
 }
