@@ -15,7 +15,7 @@ import org.springframework.web.servlet.HandlerMapping;
 
 @Slf4j
 @ControllerAdvice
-class ControllerExceptionHandler {
+public class ControllerExceptionHandler {
 
   @ExceptionHandler(EntityNotFoundException.class)
   public ProblemDetail handleEntityNotFoundException(HttpServletRequest req, EntityNotFoundException ex) {

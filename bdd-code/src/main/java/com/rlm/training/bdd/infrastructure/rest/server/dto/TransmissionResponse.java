@@ -1,14 +1,19 @@
 package com.rlm.training.bdd.infrastructure.rest.server.dto;
 
-import com.rlm.training.bdd.domain.model.Spaceship;
+import java.io.Serializable;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Data
 @Builder
 @Accessors(chain = true)
-public class TransmissionResponse {
+@NoArgsConstructor
+@AllArgsConstructor
+public class TransmissionResponse implements Serializable {
 
   private String id;
 

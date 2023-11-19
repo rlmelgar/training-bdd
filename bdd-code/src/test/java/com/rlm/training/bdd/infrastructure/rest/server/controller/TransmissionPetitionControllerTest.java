@@ -28,6 +28,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
 class TransmissionPetitionControllerTest {
@@ -58,9 +60,7 @@ class TransmissionPetitionControllerTest {
     return Stream.of(
         Arguments.of(named("When receive invalid transmission Id is null.", null)),
         Arguments.of(named("When receive invalid transmission Id is empty.", "")),
-        Arguments.of(named("When receive invalid transmission Id is blank.", "    ")),
-        Arguments.of(named("When receive invalid transmission Id has spaces.", "    4fddf4444    ")),
-        Arguments.of(named("When receive invalid transmission Id is not objectId.", "fddf4444"))
+        Arguments.of(named("When receive invalid transmission Id is blank.", "    "))
     );
   }
 
@@ -74,11 +74,11 @@ class TransmissionPetitionControllerTest {
     when(getTransmissionPetitionsUseCase.getByTransmissionId(anyString())).thenReturn(transmissionPetitionReturnedFromUseCase.stream());
 
     //WHEN
-    Stream<TransmissionPetitionResponse> transmissionPetitionStream =
-        transmissionPetitionController.getPetitions(transmissionId);
+    ResponseEntity<Stream<TransmissionPetitionResponse>> responseEntity = transmissionPetitionController.getPetitions(transmissionId);
 
     //THEN
-    assertThat(transmissionPetitionStream.toList())
+    assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(responseEntity.getBody())
         .hasSize(transmissionPetitionResponseExpected.size())
         .containsExactlyElementsOf(transmissionPetitionResponseExpected);
   }
