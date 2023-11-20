@@ -1,5 +1,5 @@
 package cucumber.stepdefs;
 
-public class GetTransmissionPetitions {
+public class GetTransmissionPetitions extends CucumberSpringConfiguration {
 
 }
