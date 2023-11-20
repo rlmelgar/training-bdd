@@ -14,23 +14,30 @@ Feature: Recover a list of petitions from an active transmission
       | 'true' | 'true'        |
 
 
-  Scenario Outline: Get all petitions from an <status> transmission stored which has petitions <has_petitions>
-    Given a transmission <status> stored with(out) <has_petitions>
+  Scenario Outline: Get all petitions from an non valid transmission stored
+    Given a transmission <Status> stored with(out) <has_petitions>
     When recover all petitions of the transmission
     Then returns an empty list
 
-    Examples:
-      | status     | has_petitions |
-      | 'active'   | 'false'       |
+    Examples: Status is active
+      | Status   | has_petitions |
+      | 'active' | 'false'       |
+
+    Examples: Status is inactive
+      | Status     | has_petitions |
       | 'inactive' | 'true'        |
       | 'inactive' | 'false'       |
 
-  Scenario Outline: Get all petitions <use_case>
+  Scenario: Get all petitions but no transmission were found
     Given no transmission stored
     When recover all petitions of the transmission
-    Then returns an error that indicates <error_message>
+    Then returns an error that indicates no transmission were found
+
+  Scenario Outline: Get all petitions but the code format is invalid
+    When recover all petitions of the transmission <code>
+    Then returns an error that indicates the code format is invalid
 
     Examples:
-      | use_case                      | code  |  error_message              |
-      | from nonexistent transmission | 33333 |  no transmission were found |
-      | with an invalid code format   | 33333 |  the code format is invalid |
+      | code          |
+      | 'asdas112123' |
+      | 'inactive'    |
