@@ -24,7 +24,7 @@ import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 
 @Slf4j
-public class GetTransmissions extends CucumberSpringConfiguration {
+public class GetTransmissionsStepDef extends CucumberSpringConfiguration {
 
   @Autowired
   TransmissionController transmissionController;
@@ -41,15 +41,15 @@ public class GetTransmissions extends CucumberSpringConfiguration {
     webTestClient = MockMvcWebTestClient.bindToController(transmissionController).build();
   }
 
-  @ParameterType("active|with|inactive|without")
+  @ParameterType("active|with|inactive|without|true|false")
   public Boolean booleanValue(String value) {
-    if ("active".equals(value) || "with".equals(value)) {
+    if ("true".equals(value) || "active".equals(value) || "with".equals(value)) {
       return Boolean.TRUE;
     }
     return Boolean.FALSE;
   }
 
-  @ParameterType("a|an|one|two|tree")
+  @ParameterType("a|an|one|two|tree|1|2|3|4|5")
   public int numeric(String value) {
     return switch (value) {
       case "a", "an", "one" -> 1;
@@ -57,11 +57,6 @@ public class GetTransmissions extends CucumberSpringConfiguration {
       case "tree" -> 3;
       default -> Integer.parseInt(value);
     };
-  }
-
-  @Given("no transmission stored")
-  public void no_transmission_stored() {
-    transmissionRepository.deleteAll();
   }
 
   @Given("{numeric} {booleanValue} transmission(s) stored {booleanValue} petitions")
