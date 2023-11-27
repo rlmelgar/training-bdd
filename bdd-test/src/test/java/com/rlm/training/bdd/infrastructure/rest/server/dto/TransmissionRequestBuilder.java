@@ -1,6 +1,7 @@
 package com.rlm.training.bdd.infrastructure.rest.server.dto;
 
 import java.time.Instant;
+import java.util.List;
 
 import com.rlm.training.bdd.domain.model.TransmissionPetitionBuilder;
 
@@ -28,7 +29,7 @@ public class TransmissionRequestBuilder {
   public static TransmissionRequest build() {
     return TransmissionRequest.builder()
         .spaceship(SpaceshipDtoBuilder.build())
-        .petition(TransmissionPetitionBuilder.PETITION)
+        .petitions(List.of(TransmissionPetitionBuilder.PETITION))
         .clearanceCode(CLEARANCE_CODE)
         .build();
   }

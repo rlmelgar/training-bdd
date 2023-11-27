@@ -34,4 +34,14 @@ public class TransmissionMongodbAdapter implements TransmissionPersistencePort {
     log.debug("[STOP] idTransmission {}, found: {}", idTransmission, optionalTransmission.isPresent());
     return optionalTransmission;
   }
+
+  @Override
+  public Transmission insert(Transmission transmission) {
+    log.debug("[START] transmission {}", transmission);
+    Transmission transmissionCreated = personDocumentMapper.toModel(
+        transmissionRepository.insert(
+            personDocumentMapper.toDocument(transmission)));
+    log.debug("[STOP] transmission Created {}", transmissionCreated);
+    return transmissionCreated;
+  }
 }

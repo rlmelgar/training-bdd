@@ -8,8 +8,11 @@ import static org.mockito.Mockito.when;
 import java.util.stream.Stream;
 
 import com.rlm.training.bdd.application.usecase.transmission.GetActiveTransmissionsUseCase;
+import com.rlm.training.bdd.application.usecase.transmission.IncomingTransmissionUseCase;
 import com.rlm.training.bdd.domain.model.Transmission;
 import com.rlm.training.bdd.domain.model.TransmissionBuilder;
+import com.rlm.training.bdd.infrastructure.rest.server.dto.TransmissionRequest;
+import com.rlm.training.bdd.infrastructure.rest.server.dto.TransmissionRequestBuilder;
 import com.rlm.training.bdd.infrastructure.rest.server.dto.TransmissionResponse;
 import com.rlm.training.bdd.infrastructure.rest.server.dto.TransmissionResponseBuilder;
 import com.rlm.training.bdd.infrastructure.rest.server.mapper.TransmissionDtoMapper;
@@ -28,6 +31,9 @@ import org.springframework.http.ResponseEntity;
 class TransmissionControllerTest {
 
   private TransmissionDtoMapper transmissionDtoMapper = spy(Mappers.getMapper(TransmissionDtoMapper.class));
+
+  @Mock
+  private IncomingTransmissionUseCase incomingTransmissionUseCase;
 
   @Mock
   private GetActiveTransmissionsUseCase getActiveTransmissionsUseCase;
@@ -57,4 +63,22 @@ class TransmissionControllerTest {
     inOrder.verify(this.transmissionDtoMapper, Mockito.times(1)).toResponse(any(Transmission.class));
   }
 
+  @Test
+  void whenIncomingNewTransmissionThenReturnsTheTransmissionId() {
+    // GIVEN
+    when(this.incomingTransmissionUseCase.receive(any(Transmission.class)))
+        .thenReturn(TransmissionBuilder.buildActive());
+
+    // WHEN
+    ResponseEntity<TransmissionResponse> incomingTransmissionResponseResponseEntity =
+        transmissionController.incoming(TransmissionRequestBuilder.build());
+
+    // THEN
+    assertThat(incomingTransmissionResponseResponseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+    assertThat(incomingTransmissionResponseResponseEntity.getBody()).isEqualTo(TransmissionResponseBuilder.build());
+
+    final InOrder inOrder = Mockito.inOrder(transmissionDtoMapper, incomingTransmissionUseCase);
+    inOrder.verify(this.transmissionDtoMapper, Mockito.times(1)).toModel(any(TransmissionRequest.class));
+    inOrder.verify(this.incomingTransmissionUseCase, Mockito.times(1)).receive(any(Transmission.class));
+  }
 }

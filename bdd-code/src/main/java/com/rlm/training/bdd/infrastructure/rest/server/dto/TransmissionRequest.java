@@ -1,6 +1,7 @@
 package com.rlm.training.bdd.infrastructure.rest.server.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,7 @@ public class TransmissionRequest implements Serializable {
 
   private SpaceshipDto spaceship;
 
-  private String petition;
+  private List<String> petitions;
 
   private String clearanceCode;
 }
