@@ -1,7 +1,9 @@
 package com.rlm.training.bdd.domain.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Named.named;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -22,6 +24,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -95,5 +98,23 @@ class TransmissionPersistenceServiceTest {
 
     // THEN
     Assertions.assertArrayEquals(transmissionsExpected.toArray(), transmissionStreamActive.toArray());
+  }
+
+  @Test
+  void whenCreateTransmissionThenReturnsIt() {
+    // GIVEN
+    when(this.transmissionPersistencePort.insert(any(Transmission.class)))
+        .thenAnswer(invocationOnMock -> ((Transmission) invocationOnMock.getArgument(0)).setId(TransmissionBuilder.ID));
+
+    // WHEN
+    Transmission transmission = transmissionPersistenceService.create(TransmissionBuilder.buildNew());
+
+    // THEN
+    assertThat(transmission).usingRecursiveComparison()
+        .ignoringFields("petitions.id", "petitions.created")
+        .isEqualTo(TransmissionBuilder.buildActive());
+
+    final InOrder inOrder = Mockito.inOrder(transmissionPersistencePort);
+    inOrder.verify(this.transmissionPersistencePort, Mockito.times(1)).insert(any(Transmission.class));
   }
 }

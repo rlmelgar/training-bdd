@@ -14,13 +14,13 @@ public interface TransmissionDtoMapper {
 
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "active", ignore = true)
-  @Mapping(target = "petitions", source = "petition")
+  @Mapping(target = "petitions", source = "petitions")
   Transmission toModel(TransmissionRequest transmissionRequest);
 
   TransmissionResponse toResponse(Transmission transmission);
 
-  default List<TransmissionPetition> toTransmissionPetitions(String petition) {
-    return List.of(TransmissionPetition.builder().petition(petition).build());
+  default List<TransmissionPetition> toTransmissionPetitions(List<String> petitions) {
+    return petitions.stream().map(petition -> TransmissionPetition.builder().petition(petition).build()).toList();
   }
 
 }

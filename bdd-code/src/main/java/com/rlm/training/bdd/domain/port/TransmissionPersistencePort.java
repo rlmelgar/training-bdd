@@ -10,4 +10,6 @@ public interface TransmissionPersistencePort {
   Stream<Transmission> getAll();
 
   Optional<Transmission> getById(String id);
+
+  Transmission insert(Transmission transmission);
 }

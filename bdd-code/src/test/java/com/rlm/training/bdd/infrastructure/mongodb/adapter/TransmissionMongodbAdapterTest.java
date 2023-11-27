@@ -1,6 +1,7 @@
 package com.rlm.training.bdd.infrastructure.mongodb.adapter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
@@ -77,4 +78,22 @@ class TransmissionMongodbAdapterTest {
     final InOrder inOrder = Mockito.inOrder(transmissionRepository);
     inOrder.verify(this.transmissionRepository, Mockito.times(1)).findById(anyString());
   }
+
+  @Test
+  void whenCreateTransmissionThenReturnsIt() {
+    // GIVEN
+    when(this.transmissionRepository.insert(any(TransmissionDocument.class)))
+        .thenAnswer(invocationOnMock -> ((TransmissionDocument) invocationOnMock.getArgument(0)).setId(TransmissionBuilder.ID));
+
+    // WHEN
+    Transmission transmission = transmissionMongodbAdapter.insert(TransmissionBuilder.buildNew());
+
+    // THEN
+    assertThat(transmission).usingRecursiveComparison()
+        .isEqualTo(TransmissionBuilder.buildNew().setId(TransmissionBuilder.ID));
+
+    final InOrder inOrder = Mockito.inOrder(transmissionRepository);
+    inOrder.verify(this.transmissionRepository, Mockito.times(1)).insert(any(TransmissionDocument.class));
+  }
+
 }
