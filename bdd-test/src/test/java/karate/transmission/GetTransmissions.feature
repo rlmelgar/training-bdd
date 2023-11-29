@@ -15,7 +15,6 @@ Feature: Get a list of all active transmission stored
 
   @second
   Scenario: Get an active transmission stored
-    When path 'v1', 'transmissions'
     And method GET
     Then status 200
     And print response
