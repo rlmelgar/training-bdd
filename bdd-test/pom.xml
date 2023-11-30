@@ -89,7 +89,7 @@
       <artifactId>spring-boot-testcontainers</artifactId>
       <scope>test</scope>
     </dependency>
-<!--
+
     <dependency>
       <groupId>com.intuit.karate</groupId>
       <artifactId>karate-junit5</artifactId>
@@ -122,8 +122,6 @@
       <scope>test</scope>
     </dependency>
 
--->
-
   </dependencies>
 
   <build>
@@ -136,6 +134,17 @@
         <version>2.22.2</version>
       </plugin>
     </plugins>
+    <testResources>
+        <testResource>
+            <directory>src/test/java</directory>
+            <excludes>
+                <exclude>**/*.java</exclude>
+            </excludes>
+        </testResource>
+        <testResource>
+            <directory>src/test/resources</directory>
+        </testResource>
+    </testResources>
   </build>
 
   <reporting />

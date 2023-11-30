@@ -1,0 +1,7 @@
+({
+  "id": "#string",
+  "petition": "#string",
+  "created": "#string",
+  "approved": "##boolean",
+  "refusedReason": "##string"
+})
