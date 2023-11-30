@@ -16,15 +16,9 @@ logging:
 spring:
   application:
     name: imperialcom
-  data:
-    mongodb:
-      database: imperialcom
-      username: storm
-      password: 6690B1
-      authentication-database: admin
   jackson:
     default-property-inclusion: NON_NULL
   docker:
     compose:
-      enabled: true
+      enabled: false
       file: ./docker/docker-compose.yaml

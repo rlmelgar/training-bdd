@@ -6,6 +6,7 @@ import com.rlm.training.bdd.infrastructure.mongodb.repository.TransmissionReposi
 import com.rlm.training.bdd.infrastructure.rest.server.controller.TransmissionController;
 import com.rlm.training.bdd.infrastructure.rest.server.dto.TransmissionResponse;
 import com.rlm.training.bdd.infrastructure.rest.server.dto.TransmissionResponseBuilder;
+import cucumber.MongoContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,13 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, classes = Application.class)
 @ActiveProfiles("test")
-class TransmissionControllerIT {
+//@Import(value = MongoContainer.class)
+@Testcontainers
+class TransmissionControllerIT extends MongoContainer {
 
   @Autowired
   TransmissionController transmissionController;
