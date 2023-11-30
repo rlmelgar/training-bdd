@@ -4,12 +4,14 @@ import com.intuit.karate.junit5.Karate;
 import com.rlm.training.bdd.Application;
 import com.rlm.training.bdd.infrastructure.mongodb.document.TransmissionDocumentBuilder;
 import com.rlm.training.bdd.infrastructure.mongodb.repository.TransmissionRepository;
-import cucumber.MongoContainer;
+import cucumber.ContainersConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = {Application.class})
-class GetTransmissionsRunner extends MongoContainer {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = {Application.class, ContainersConfig.class})
+@ActiveProfiles("test")
+class GetTransmissionsRunner {
 
   @Autowired
   TransmissionRepository transmissionRepository;
