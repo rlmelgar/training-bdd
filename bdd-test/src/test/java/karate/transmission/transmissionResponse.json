@@ -1,0 +1,10 @@
+({
+  "id": "#string",
+  "spaceship": {
+    "name": "#string",
+    "type": "#string",
+    "navPoint": "#string",
+    "cargo": "##string",
+    "crew": "#number"
+  }
+})
