@@ -2,17 +2,16 @@ package karate.transmissionPetition;
 
 import com.intuit.karate.junit5.Karate;
 import com.rlm.training.bdd.Application;
+import com.rlm.training.bdd.containers.MongoContainerTest;
 import com.rlm.training.bdd.infrastructure.mongodb.document.TransmissionDocumentBuilder;
 import com.rlm.training.bdd.infrastructure.mongodb.repository.TransmissionRepository;
-import cucumber.ContainersConfig;
-import cucumber.MongoContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = {Application.class, ContainersConfig.class})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = {Application.class})
 @ActiveProfiles("test")
-class GetTransmissionPetitionsRunner extends MongoContainer {
+class GetTransmissionPetitionsRunner extends MongoContainerTest {
 
   @Autowired
   TransmissionRepository transmissionRepository;

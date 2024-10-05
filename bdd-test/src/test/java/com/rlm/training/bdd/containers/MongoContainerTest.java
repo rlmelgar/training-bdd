@@ -1,4 +1,4 @@
-package cucumber;
+package com.rlm.training.bdd.containers;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -8,7 +8,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
-public class MongoContainer {
+public class MongoContainerTest {
 
   @Container
   @ServiceConnection
